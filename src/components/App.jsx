@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import useStyles from './styles';
 
-import { NavBar, Actor, Movie, MovieInfo, Profile } from '.';
+import { NavBar, Actors, Movies, MovieInfo, Profile } from '.';
 
 const App = () => {
   const classes = useStyles();
@@ -17,13 +17,13 @@ const App = () => {
         <div className={classes.toolBar} />
         <Switch>
           <Route path="/" exact>
-            <Movie />
+            <Movies />
           </Route>
           <Route path="/movie/:id" exact>
             <MovieInfo />
           </Route>
           <Route path="/actor/:id" exact>
-            <Actor />
+            <Actors />
           </Route>
           <Route path="/profile/:id" exact>
             <Profile />
