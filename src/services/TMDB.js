@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const tmdbApikKey = process.env.REACT_APP_TMDB_KEY;
+const tmdbApiKey = process.env.REACT_APP_TMDB_KEY;
 
 //
 export const tmdbApi = createApi({
@@ -9,7 +9,7 @@ export const tmdbApi = createApi({
   endpoints: (builder) => ({
     // Get Genres
     getGenres: builder.query({
-      query: () => `genre/movie/list?api_key=${tmdbApikKey}`,
+      query: () => `genre/movie/list?api_key=${tmdbApiKey}`,
     }),
 
     // Get Movies by [Type]
@@ -17,26 +17,39 @@ export const tmdbApi = createApi({
       query: ({ genreIdOrCategoryName, page, searchQuery }) => {
         // Get Movies by Search
         if (searchQuery) {
-          return `search/movie?query=${searchQuery}&page=${page}&api_key=${tmdbApikKey}`;
+          return `search/movie?query=${searchQuery}&page=${page}&api_key=${tmdbApiKey}`;
         }
 
         // Get Movies by Category
         if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'string') {
-          return `movie/${genreIdOrCategoryName}?page=${page}&api_key=${tmdbApikKey}`;
+          return `movie/${genreIdOrCategoryName}?page=${page}&api_key=${tmdbApiKey}`;
         }
 
         // Get Movies by Genre
         if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'number') {
-          return `discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}&api_key=${tmdbApikKey}`;
+          return `discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}&api_key=${tmdbApiKey}`;
         }
 
         // Get Popular Movies
-        return `movie/popular?page=${page}&api_key=${tmdbApikKey}`;
+        return `movie/popular?page=${page}&api_key=${tmdbApiKey}`;
       },
+    }),
+
+    // Get Movie
+    getMovie: builder.query({
+      query: (id) => `movie/${id}?append_to_response=videos,credits&api_key=${tmdbApiKey}`,
+    }),
+
+    // Get User Specific Lists
+    getRecommendations: builder.query({
+      query: ({ movieId, list }) => `movie/${movieId}/${list}?api_key=${tmdbApiKey}`,
     }),
   }),
 });
 
 export const {
-  useGetMoviesQuery, useGetGenresQuery,
+  useGetMoviesQuery,
+  useGetGenresQuery,
+  useGetMovieQuery,
+  useGetRecommendationsQuery,
 } = tmdbApi;
