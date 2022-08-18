@@ -16,7 +16,7 @@ const App = () => {
       <main className={classes.content}>
         <div className={classes.toolBar} />
         <Switch>
-          <Route path="/" exact>
+          <Route path={['/', '/approved']} exact>
             <Movies />
           </Route>
           <Route path="/movie/:id" exact>
